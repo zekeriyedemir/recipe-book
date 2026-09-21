@@ -1,10 +1,10 @@
 import { queryOptions } from "@tanstack/react-query";
 import { fetchAllRecipes, fetchRecipeById } from "./server";
 
-export const getRecipesQuery = () =>
+export const getRecipesQuery = (search = "") =>
   queryOptions({
-    queryKey: ["recipes"],
-    queryFn: fetchAllRecipes,
+    queryKey: ["recipes", search],
+    queryFn: () => fetchAllRecipes(search),
   });
 
 export const getRecipeByIdQuery = (id: number | string) =>

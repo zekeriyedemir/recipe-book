@@ -8,10 +8,10 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { useRecipeSearch } from "./SearchProvider";
+import { useSearchParams } from "next/navigation";
 
 function Navbar() {
-  const { searchQuery, setSearchQuery } = useRecipeSearch();
+  const searchQuery = useSearchParams().get("q") ?? "";
 
   return (
     <header className="border-b border-base-300 bg-base-100 shadow-sm">
@@ -19,7 +19,6 @@ function Navbar() {
         <div className="navbar-start">
           <Link
             href="/"
-            onClick={() => setSearchQuery("")}
             className="group flex items-center gap-4"
           >
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-content">
@@ -38,33 +37,32 @@ function Navbar() {
           </Link>
         </div>
 
-        <div className="navbar-center">
+        <form action="/" method="get" className="navbar-center">
           <label className="input input-bordered flex w-80 items-center gap-3 bg-base-200">
-            <FontAwesomeIcon
-              icon={faMagnifyingGlass}
-              className="text-base-content/45"
-            />
+            <button type="submit" aria-label="Search recipes"><FontAwesomeIcon icon={faMagnifyingGlass} className="text-base-content/45" /></button>
 
             <input
               type="search"
-              value={searchQuery}
-              onChange={(event) => setSearchQuery(event.target.value)}
+              name="q"
+              key={searchQuery}
+              defaultValue={searchQuery}
+              maxLength={200}
+              aria-label="Search recipes"
               placeholder="Search recipes..."
               className="grow"
             />
 
             {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery("")}
+              <Link
+                href="/"
                 className="btn btn-circle btn-ghost btn-xs"
                 aria-label="Clear search"
               >
                 <FontAwesomeIcon icon={faXmark} />
-              </button>
+              </Link>
             )}
           </label>
-        </div>
+        </form>
 
         <div className="navbar-end" />
       </nav>

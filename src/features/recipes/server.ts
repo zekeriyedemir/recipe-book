@@ -8,8 +8,8 @@ async function readJson<T>(response: Response, message: string): Promise<T> {
   return response.json() as Promise<T>;
 }
 
-export async function fetchAllRecipes(): Promise<Recipe[]> {
-  const response = await fetch("/api/recipes");
+export async function fetchAllRecipes(search = ""): Promise<Recipe[]> {
+  const response = await fetch(`/api/recipes?q=${encodeURIComponent(search)}`);
   return readJson<Recipe[]>(response, "Failed to fetch recipes");
 }
 

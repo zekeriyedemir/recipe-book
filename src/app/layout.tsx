@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 
 import "./globals.css";
 
@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="min-h-screen bg-base-200 text-base-content">
         <QueryProvider>
           <SearchProvider>
-            <Navbar />
+            <Suspense fallback={<header className="min-h-24" />}><Navbar /></Suspense>
             {children}
           </SearchProvider>
         </QueryProvider>
