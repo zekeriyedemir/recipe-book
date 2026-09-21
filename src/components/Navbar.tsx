@@ -64,7 +64,7 @@ function Navbar() {
           </label>
         </form>
 
-        <div className="navbar-end" />
+        <div className="navbar-end"><Link className="btn btn-ghost" href="/cookbook">My cookbook</Link></div>
       </nav>
     </header>
   );
