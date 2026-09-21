@@ -1,26 +1,8 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
-import { getRecipeByIdQuery } from "@/features/recipes/queries";
+import type { Recipe } from "@/types/recipe";
 
-export default function RecipeDetails({ id }: { id: string }) {
-  const { data: recipe, isPending, error } = useQuery(getRecipeByIdQuery(id));
-
-  if (isPending) {
-    return <main className="mx-auto max-w-5xl px-8 py-14">Loading recipe...</main>;
-  }
-
-  if (error || !recipe) {
-    return (
-      <main className="mx-auto max-w-5xl px-8 py-14">
-        <h1 className="text-3xl font-bold">Recipe not found</h1>
-        <Link href="/" className="btn btn-primary mt-6">Back to recipes</Link>
-      </main>
-    );
-  }
-
+export default function RecipeDetails({ recipe }: { recipe: Recipe }) {
   return (
     <main className="mx-auto max-w-5xl px-8 py-14">
       <Link href="/" className="link link-hover text-sm">← Back to recipes</Link>

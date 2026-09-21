@@ -1,32 +1,17 @@
 "use client";
 
 import { useMemo } from "react";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import type { Recipe } from "@/types/recipe";
 
 import { useRecipeSearch } from "@/components/SearchProvider";
-import { getRecipesQuery } from "@/features/recipes/queries";
 import FeaturedRecipe from "@/features/recipes/components/FeaturedRecipe";
 import RecipeCard from "@/features/recipes/components/RecipeCard";
 
-export default function HomePage() {
+export default function HomePage({ recipes }: { recipes: Recipe[] }) {
   const { searchQuery } = useRecipeSearch();
-  const { data: recipes } = useSuspenseQuery(getRecipesQuery());
 
-  const featuredRecipes = useMemo(() => {
-    const shuffledRecipes = [...recipes];
-
-    for (let i = shuffledRecipes.length - 1; i > 0; i--) {
-      // Intentional: choose a fresh set of featured recipes when recipe data loads.
-      // eslint-disable-next-line react-hooks/purity
-      const randomIndex = Math.floor(Math.random() * (i + 1));
-      [shuffledRecipes[i], shuffledRecipes[randomIndex]] = [
-        shuffledRecipes[randomIndex],
-        shuffledRecipes[i],
-      ];
-    }
-
-    return shuffledRecipes.slice(0, 4);
-  }, [recipes]);
+  // Keep the server and browser render consistent during hydration.
+  const featuredRecipes = recipes.slice(0, 4);
 
   const normalizedSearch = searchQuery.trim().toLowerCase();
 

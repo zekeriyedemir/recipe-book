@@ -7,5 +7,5 @@ export type Recipe = {
   ingredients: string[];
   description: string;
   image: string | null;
-  created_at: Date;
+  created_at: string | null;
 };
