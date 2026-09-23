@@ -1,37 +1,18 @@
 "use client";
 
-import { useMemo } from "react";
 import type { Recipe } from "@/types/recipe";
 
-import { useRecipeSearch } from "@/components/SearchProvider";
 import FeaturedRecipe from "@/features/recipes/components/FeaturedRecipe";
 import RecipeCard from "@/features/recipes/components/RecipeCard";
 
-export default function HomePage({ recipes }: { recipes: Recipe[] }) {
-  const { searchQuery } = useRecipeSearch();
+export default function HomePage({ recipes, searchQuery }: { recipes: Recipe[]; searchQuery: string }) {
 
   // Keep the server and browser render consistent during hydration.
   const featuredRecipes = recipes.slice(0, 4);
 
   const normalizedSearch = searchQuery.trim().toLowerCase();
 
-  const searchResults = useMemo(() => {
-    if (!normalizedSearch) return [];
-
-    return recipes.filter((recipe) => {
-      const searchableText = [
-        recipe.title,
-        recipe.category,
-        recipe.description,
-        ...(recipe.ingredients ?? []),
-      ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
-
-      return searchableText.includes(normalizedSearch);
-    });
-  }, [recipes, normalizedSearch]);
+  const searchResults = recipes;
 
   if (normalizedSearch) {
     return (
@@ -52,7 +33,7 @@ export default function HomePage({ recipes }: { recipes: Recipe[] }) {
           ) : (
             <div className="rounded-box bg-base-100 p-12 text-center shadow-sm">
               <h2 className="text-2xl font-semibold">No recipes found</h2>
-              <p className="mt-2 text-base-content/60">Try another ingredient, recipe name or category.</p>
+              <p className="mt-2 text-base-content/60">Try another recipe name or category.</p>
             </div>
           )}
         </section>
