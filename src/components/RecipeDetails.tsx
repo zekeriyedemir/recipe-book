@@ -1,3 +1,4 @@
+import SaveRecipeButton from "@/components/save-recipe-button";
 import Image from "next/image";
 import Link from "next/link";
 import type { Recipe } from "@/types/recipe";
@@ -24,6 +25,7 @@ export default function RecipeDetails({ recipe }: { recipe: Recipe }) {
           <ul className="mt-4 list-disc space-y-2 pl-6">
             {recipe.ingredients.map((ingredient, index) => <li key={`${ingredient}-${index}`}>{ingredient}</li>)}
           </ul>
+          <div className="mt-6"><SaveRecipeButton recipeId={recipe.id} /></div>
         </div>
       </article>
     </main>
